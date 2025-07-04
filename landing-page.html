@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D5账户验证</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .header {
+            background-color: #165DFF;
+            color: #ffffff;
+            text-align: center;
+            padding: 15px 0;
+            border-radius: 8px 8px 0 0;
+        }
+        .logo {
+            max-width: 200px;
+            display: block;
+            margin: 0 auto;
+        }
+        .content {
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .verify-button {
+            display: block;
+            width: 100%;
+            margin: 20px 0;
+            background-color: #165DFF;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .verify-button:hover {
+            background-color: #0e47cc;
+        }
+        .phish-report-button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            background-color: #f44336;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .phish-report-button:hover {
+            background-color: #d32f2f;
+        }
+        .support-info {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+        .security-note {
+            background-color: #f9fafc;
+            border-left: 4px solid #165DFF;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .phish-report-form {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        .phish-report-form h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://picsum.photos/200/80?random=1" alt="D5标志" class="logo">
+            <h2>账户验证</h2>
+        </div>
+        <div class="content">
+            <p>感谢您提交IT支持请求。为了更好地处理您的问题并确保账户安全，请完成以下验证：</p>
+            
+            <form id="verificationForm">
+                <div class="form-group">
+                    <label for="employeeId">员工ID：</label>
+                    <input type="text" id="employeeId" placeholder="请输入您的员工ID" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">邮箱地址：</label>
+                    <input type="email" id="email" placeholder="请输入您的邮箱地址" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="verificationCode">验证码：</label>
+                    <div class="flex">
+                        <input type="text" id="verificationCode" placeholder="请输入验证码" required>
+                        <button type="button" id="sendCodeBtn" class="verify-button" style="width: auto; margin: 0 0 0 10px;">发送验证码</button>
+                    </div>
+                </div>
+                
+                <button type="submit" class="verify-button">确认并继续</button>
+            </form>
+            
+            <button id="reportPhishBtn" class="phish-report-button">报告钓鱼邮件</button>
+            
+            <div id="phishReportForm" class="phish-report-form">
+                <h3>报告钓鱼邮件</h3>
+                <p>感谢您帮助我们识别钓鱼邮件。请提供以下信息：</p>
+                
+                <form id="phishReportSubmission">
+                    <div class="form-group">
+                        <label for="phishEmail">发送方邮箱：</label>
+                        <input type="text" id="phishEmail" placeholder="请输入可疑邮件的发送方邮箱">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phishSubject">邮件主题：</label>
+                        <input type="text" id="phishSubject" placeholder="请输入可疑邮件的主题">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phishNotes">备注信息：</label>
+                        <textarea id="phishNotes" rows="4" placeholder="请提供任何有助于识别该邮件为钓鱼邮件的信息"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="verify-button">提交报告</button>
+                </form>
+            </div>
+            
+            <div class="security-note">
+                <p><strong>安全提示：</strong></p>
+                <ul>
+                    <li>请确保此邮件是从您信任的D5官方邮箱发出</li>
+                    <li>请勿与他人分享您的验证码</li>
+                    <li>如果您未发起此请求，请立即联系IT支持团队</li>
+                </ul>
+            </div>
+            
+            <div class="support-info">
+                <p>需要帮助？请联系 D5 IT支持: <a href="mailto:support@d5.com">support@d5.com</a> 或 400-888-8888</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('verificationForm');
+            const sendCodeBtn = document.getElementById('sendCodeBtn');
+            const reportPhishBtn = document.getElementById('reportPhishBtn');
+            const phishReportForm = document.getElementById('phishReportForm');
+            const phishReportSubmission = document.getElementById('phishReportSubmission');
+            
+            // 模拟发送验证码功能
+            sendCodeBtn.addEventListener('click', function() {
+                const emailInput = document.getElementById('email');
+                if (!emailInput.value) {
+                    alert('请先输入邮箱地址');
+                    return;
+                }
+                
+                // 简单验证邮箱格式
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(emailInput.value)) {
+                    alert('请输入有效的邮箱地址');
+                    return;
+                }
+                
+                // 禁用按钮并显示倒计时
+                let countdown = 60;
+                sendCodeBtn.disabled = true;
+                sendCodeBtn.textContent = `重新发送(${countdown}s)`;
+                
+                const timer = setInterval(() => {
+                    countdown--;
+                    sendCodeBtn.textContent = `重新发送(${countdown}s)`;
+                    
+                    if (countdown <= 0) {
+                        clearInterval(timer);
+                        sendCodeBtn.disabled = false;
+                        sendCodeBtn.textContent = '发送验证码';
+                    }
+                }, 1000);
+                
+                // 模拟发送验证码的API调用
+                console.log(`向 ${emailInput.value} 发送验证码`);
+                alert('验证码已发送到您的邮箱，请查收');
+            });
+            
+            // 表单提交处理
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const employeeId = document.getElementById('employeeId').value;
+                const email = document.getElementById('email').value;
+                const verificationCode = document.getElementById('verificationCode').value;
+                
+                // 简单验证
+                if (!employeeId || !email || !verificationCode) {
+                    alert('请填写所有必填字段');
+                    return;
+                }
+                
+                // 模拟表单提交
+                console.log('提交验证表单:', {
+                    employeeId,
+                    email,
+                    verificationCode
+                });
+                
+                // 显示成功消息
+                alert('验证信息提交成功，我们的技术支持团队将尽快处理您的请求');
+                
+                // 可以在这里添加重定向逻辑
+                // window.location.href = 'success-page.html';
+            });
+            
+            // 报告钓鱼邮件按钮
+            reportPhishBtn.addEventListener('click', function() {
+                // 切换报告表单显示状态
+                if (phishReportForm.style.display === 'none') {
+                    phishReportForm.style.display = 'block';
+                    reportPhishBtn.textContent = '取消报告';
+                } else {
+                    phishReportForm.style.display = 'none';
+                    reportPhishBtn.textContent = '报告钓鱼邮件';
+                }
+            });
+            
+            // 钓鱼邮件报告提交
+            phishReportSubmission.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const phishEmail = document.getElementById('phishEmail').value;
+                const phishSubject = document.getElementById('phishSubject').value;
+                const phishNotes = document.getElementById('phishNotes').value;
+                
+                // 简单验证
+                if (!phishEmail || !phishSubject) {
+                    alert('请至少填写发送方邮箱和邮件主题');
+                    return;
+                }
+                
+                // 构建报告数据
+                const reportData = {
+                    email: phishEmail,
+                    subject: phishSubject,
+                    notes: phishNotes,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // 模拟向GoPhish API提交报告
+                console.log('向GoPhish提交钓鱼邮件报告:', reportData);
+                
+                // 显示成功消息
+                alert('钓鱼邮件报告已提交，感谢您的警惕！');
+                
+                // 重置表单并隐藏
+                phishReportSubmission.reset();
+                phishReportForm.style.display = 'none';
+                reportPhishBtn.textContent = '报告钓鱼邮件';
+            });
+        });
+    </script>
+</body>
+</html>
+    
